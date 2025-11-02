@@ -13,7 +13,7 @@
   overflow: auto;
   align-content: stretch;
 }
-@media (min-width: 480px) {
+@media (min-width: 300px) {
   .calculator-grid {
     display: flex;
     flex-wrap: wrap;
@@ -29,7 +29,7 @@
     align-content: center;
     background: #ffffff;
     width: 100%;
-    height: 20%;
+    height: 20% !important;
     text-align: center;
     border-bottom: 1px solid #e5e7eb;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -37,7 +37,7 @@
   }
 
   .header h1 {
-    font-size: 2.5rem;
+    font-size: 1.5rem !important;
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 12px;
@@ -45,7 +45,7 @@
   }
 
   .header p {
-    font-size: 1.1rem;
+    font-size: 1rem !important;
     color: #64748b;
     font-weight: 400;
     display: flex;
@@ -65,7 +65,7 @@
     border-image: linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%) 1;
   }
   .input-section {
-    height: 100%;
+    height: auto !important;
     width: 100%;
     background: #ffffff;
     border-radius: 12px;
@@ -77,17 +77,17 @@
   .output-section {
     display: flex;
     flex-wrap: wrap;
-    height: 100%;
-    width: 100%;
+    height: 100% !important;
+    width: 100% !important;
   }
   .cards-grid {
-    width: 100%;
-    height: 40%;
+    width: auto !important;
+    height: auto !important;
     display: grid;
     flex-wrap: wrap;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 30px;
-
+    margin-bottom: 20px !important;
     justify-content: center;
     align-items: center;
   }
@@ -95,8 +95,8 @@
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
-    height: 100%;
-    width: 100%;
+    height: 100% !important;
+    width: 100% !important;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
