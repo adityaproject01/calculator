@@ -298,11 +298,15 @@ const Calculator = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {report.map((ele, itm) => (
-                      <p>
-                        ele
-                      </p>
-        ))} */}
+                    {report?.map((ele, index) => (
+                      <tr key={index}>
+                        <td>{ele.month}</td>
+                        <td>{ele.startBalance.toFixed(5)}</td>
+                        <td>{ele.interest.toFixed(5)}</td>
+                        <td>{ele.contribution.toFixed(5)}</td>
+                        <td>{ele.endBalance.toFixed(5)}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
