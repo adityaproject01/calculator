@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./component.css";
 import profileImg from "./profile/b_causal_smile.png";
+
 const Calculator = () => {
+  
   const [output, setOutput] = useState({
     monthlyExpenseAtRetirement: 0,
     annualExpenseAtRetirement: 0,
@@ -11,13 +13,13 @@ const Calculator = () => {
   });
 
   const [input, setInput] = useState({
-    currentAge: 30,
-    targetAge: 55,
-    monthlyExpensive: 1,
-    inflation: 5,
-    rPre: 12,
-    rPost: 8,
-    deathAge: 85,
+    currentAge: Number,
+    targetAge: Number,
+    monthlyExpensive: Number,
+    inflation: Number,
+    rPre: Number,
+    rPost: Number,
+    deathAge: Number,
   });
   let [report, setReport] = useState();
   function handleSubmit(e) {
@@ -79,7 +81,7 @@ const Calculator = () => {
     let startBalance = 0;
     for (let month = 1; month <= M; month++) {
       let contribution = hg;
-      let interest = (startBalance + contribution) * r_m_pre; // precise float
+      let interest = (startBalance + contribution) * r_m_pre;
       let endBalance = startBalance + interest + contribution;
 
       reportArray.push({
@@ -90,230 +92,251 @@ const Calculator = () => {
         endBalance,
       });
 
-      startBalance = endBalance; // next month
+      startBalance = endBalance;
     }
 
     setReport(reportArray);
     console.log(reportArray);
   }
+  function handleReset(e) {
+    e.preventDefault();
+    setOutput({
+      monthlyExpenseAtRetirement: 0,
+      annualExpenseAtRetirement: 0,
+      corpusRequired: 0,
+      monthlySIPRequired: 0,
+      corpusToday: 0,
+    });
+    setInput({
+      currentAge: Number,
+      targetAge: Number,
+      monthlyExpensive: Number,
+      inflation: Number,
+      rPre: Number,
+      rPost: Number,
+      deathAge: Number,
+    });
+    setReport();
+  }
 
   return (
     <div className="container">
       <header className="header">
-        <h1>Retirement Planning Calculator</h1>
-        <p>Plan your financial future with precision and confidence</p>
+        <div>
+          <h1>Retirement Planning Calculator</h1>
+          <p>Plan your financial future with precision and confidence</p>
+        </div>
       </header>
-      <main className="container">
-        <div className="calculator-grid">
-          <div className="input-section">
+
+      <div className="calculator-grid">
+        <div className="input-section">
+          <div>
             <h2 className="section-title">Input Parameters</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label className="form-label" htmlFor="currentAge">
-                  Current Age
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setInput({ ...input, currentAge: e.target.value })
-                  }
-                  value={input.currentAge}
-                  className="form-input"
-                  placeholder="e.g., 30"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="retirementAge">
-                  Target Retirement Age
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setInput({ ...input, targetAge: e.target.value })
-                  }
-                  value={input.targetAge}
-                  className="form-input"
-                  placeholder="e.g., 60"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="deathAge">
-                  Age till Death
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setInput({ ...input, deathAge: e.target.value })
-                  }
-                  value={input.deathAge}
-                  className="form-input"
-                  placeholder="e.g., 85"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="monthlyExpenses">
-                  Monthly Expenses (₹ Lakh)
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setInput({ ...input, monthlyExpensive: e.target.value })
-                  }
-                  value={input.monthlyExpensive}
-                  step="0.01"
-                  className="form-input"
-                  placeholder="e.g., 0.50"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="inflationRate">
-                  Inflation Rate (%)
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setInput({ ...input, inflation: e.target.value })
-                  }
-                  value={input.inflation}
-                  step="0.01"
-                  className="form-input"
-                  placeholder="e.g., 6"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="returnPreRetirement">
-                  Return Pre-Retirement (%)
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) => setInput({ ...input, rPre: e.target.value })}
-                  value={input.rPre}
-                  step="0.01"
-                  className="form-input"
-                  placeholder="e.g., 12"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="returnPostRetirement">
-                  Return Post-Retirement (%)
-                </label>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setInput({ ...input, rPost: e.target.value })
-                  }
-                  value={input.rPost}
-                  step="0.01"
-                  className="form-input"
-                  placeholder="e.g., 8"
-                  required
-                />
-                <div className="error-message"></div>
-              </div>
-
-              <div className="button-group">
-                <button type="submit" className="btn btn-primary">
-                  Calculate
-                </button>
-                <button type="button" className="btn btn-secondary">
-                  Reset
-                </button>
-              </div>
-            </form>
           </div>
-
-          <div className="output-section">
-            <div className="cards-grid">
-              <div className="output-card card-1">
-                <div className="card-label">Monthly Expense at Retirement</div>
-                <div className="card-value">
-                  {Math.round(output.monthlyExpenseAtRetirement) || "--"}
-                </div>
-                <div className="card-unit">₹ Lakh</div>
-              </div>
-
-              <div className="output-card card-2">
-                <div className="card-label">Annual Expense at Retirement</div>
-                <div className="card-value">
-                  {Math.round(output.annualExpenseAtRetirement) || "--"}
-                </div>
-                <div className="card-unit">₹ Lakh</div>
-              </div>
-
-              <div className="output-card card-3">
-                <div className="card-label">Corpus Required at Retirement</div>
-                <div className="card-value">
-                  {output.corpusRequired || "--"}
-                </div>
-                <div className="card-unit">₹ Lakh</div>
-              </div>
-
-              <div className="output-card card-4">
-                <div className="card-label">Monthly SIP Required</div>
-                <div className="card-value">
-                  {output.monthlySIPRequired || "--"}
-                </div>
-                <div className="card-unit">₹ Lakh</div>
-              </div>
-
-              <div className="output-card card-5">
-                <div className="card-label">Total Corpus Required Today</div>
-                <div className="card-value">{output.corpusToday || "--"}</div>
-                <div className="card-unit">₹ Lakh</div>
-              </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label className="form-label" htmlFor="currentAge">
+                Current Age
+              </label>
+              <input
+                type="number"
+                onChange={(e) =>
+                  setInput({ ...input, currentAge: e.target.value })
+                }
+                value={input.currentAge}
+                className="form-input"
+                placeholder="e.g., 30"
+                required
+              />
+              <div className="error-message"></div>
             </div>
 
-            {/* //style="overflow-x: auto */}
-            <div className="table-section">
-              <h3 className="table-title">
-                Accumulation Schedule — Monthly (Annuity-Due)
-              </h3>
-              <div>
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>Month</th>
-                      <th>Start Balance</th>
-                      <th>Interest</th>
-                      <th>Contribution (SIP)</th>
-                      <th>End Balance</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {report?.map((ele, index) => (
-                      <tr key={index}>
-                        <td>{ele.month}</td>
-                        <td>{ele.startBalance.toFixed(5)}</td>
-                        <td>{ele.interest.toFixed(5)}</td>
-                        <td>{ele.contribution.toFixed(5)}</td>
-                        <td>{ele.endBalance.toFixed(5)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="form-group">
+              <label className="form-label" htmlFor="retirementAge">
+                Target Retirement Age
+              </label>
+              <input
+                type="number"
+                onChange={(e) =>
+                  setInput({ ...input, targetAge: e.target.value })
+                }
+                value={input.targetAge}
+                className="form-input"
+                placeholder="e.g., 60"
+                required
+              />
+              <div className="error-message"></div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="deathAge">
+                Age till Death
+              </label>
+              <input
+                type="number"
+                onChange={(e) =>
+                  setInput({ ...input, deathAge: e.target.value })
+                }
+                value={input.deathAge}
+                className="form-input"
+                placeholder="e.g., 85"
+                required
+              />
+              <div className="error-message"></div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="monthlyExpenses">
+                Monthly Expenses (₹ Lakh)
+              </label>
+              <input
+                type="number"
+                onChange={(e) =>
+                  setInput({ ...input, monthlyExpensive: e.target.value })
+                }
+                value={input.monthlyExpensive}
+                step="0.01"
+                className="form-input"
+                placeholder="e.g., 0.50"
+                required
+              />
+              <div className="error-message"></div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="inflationRate">
+                Inflation Rate (%)
+              </label>
+              <input
+                type="number"
+                onChange={(e) =>
+                  setInput({ ...input, inflation: e.target.value })
+                }
+                value={input.inflation}
+                step="0.01"
+                className="form-input"
+                placeholder="e.g., 6"
+                required
+              />
+              <div className="error-message"></div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="returnPreRetirement">
+                Return Pre-Retirement (%)
+              </label>
+              <input
+                type="number"
+                onChange={(e) => setInput({ ...input, rPre: e.target.value })}
+                value={input.rPre}
+                step="0.01"
+                className="form-input"
+                placeholder="e.g., 12"
+                required
+              />
+              <div className="error-message"></div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="returnPostRetirement">
+                Return Post-Retirement (%)
+              </label>
+              <input
+                type="number"
+                onChange={(e) => setInput({ ...input, rPost: e.target.value })}
+                value={input.rPost}
+                step="0.01"
+                className="form-input"
+                placeholder="e.g., 8"
+                required
+              />
+              <div className="error-message"></div>
+            </div>
+
+            <div className="button-group">
+              <button type="submit" className="btn btn-primary">
+                Calculate
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="btn btn-secondary">
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="output-section">
+          <div className="cards-grid">
+            <div className="output-card card-1">
+              <div className="card-label">Monthly Expense at Retirement</div>
+              <div className="card-value">
+                {Math.round(output.monthlyExpenseAtRetirement) || "--"}
               </div>
+              <div className="card-unit">₹ Lakh</div>
+            </div>
+
+            <div className="output-card card-2">
+              <div className="card-label">Annual Expense at Retirement</div>
+              <div className="card-value">
+                {Math.round(output.annualExpenseAtRetirement) || "--"}
+              </div>
+              <div className="card-unit">₹ Lakh</div>
+            </div>
+
+            <div className="output-card card-3">
+              <div className="card-label">Corpus Required at Retirement</div>
+              <div className="card-value">{output.corpusRequired || "--"}</div>
+              <div className="card-unit">₹ Lakh</div>
+            </div>
+
+            <div className="output-card card-4">
+              <div className="card-label">Monthly SIP Required</div>
+              <div className="card-value">
+                {output.monthlySIPRequired || "--"}
+              </div>
+              <div className="card-unit">₹ Lakh</div>
+            </div>
+
+            <div className="output-card card-5">
+              <div className="card-label">Total Corpus Required Today</div>
+              <div className="card-value">{output.corpusToday || "--"}</div>
+              <div className="card-unit">₹ Lakh</div>
+            </div>
+          </div>
+
+          <div className="table-section">
+            <h3 className="table-title">
+              Accumulation Schedule — Monthly (Annuity-Due)
+            </h3>
+            <div>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Start Balance</th>
+                    <th>Interest</th>
+                    <th>Contribution (SIP)</th>
+                    <th>End Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {report?.map((ele, index) => (
+                    <tr key={index}>
+                      <td>{ele.month}</td>
+                      <td>{ele.startBalance.toFixed(5)}</td>
+                      <td>{ele.interest.toFixed(5)}</td>
+                      <td>{ele.contribution.toFixed(5)}</td>
+                      <td>{ele.endBalance.toFixed(5)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
