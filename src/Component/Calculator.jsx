@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./component.css";
-import profileImg from "./profile/b_causal_smile.png";
+import { useNavigate } from "react-router-dom";
 
 const Calculator = () => {
-  
+  const navigate = useNavigate();
   const [output, setOutput] = useState({
     monthlyExpenseAtRetirement: 0,
     annualExpenseAtRetirement: 0,
@@ -21,7 +21,29 @@ const Calculator = () => {
     rPost: Number,
     deathAge: Number,
   });
+
+  useEffect(() => {
+    const checkOtpExpiry = () => {
+      const verified = localStorage.getItem("otpVerified") === "true";
+      const expiry = parseInt(localStorage.getItem("otpExpiry"), 10);
+      const now = Date.now();
+
+      if (!verified || !expiry || now > expiry) {
+    
+        localStorage.removeItem("otpVerified");
+        localStorage.removeItem("otpExpiry");
+        navigate("/", { replace: true });
+      }
+    };
+
+    checkOtpExpiry();
+
+    const interval = setInterval(checkOtpExpiry, 10 * 1000);
+
+    return () => clearInterval(interval);
+  }, [navigate]);
   let [report, setReport] = useState();
+
   function handleSubmit(e) {
     e.preventDefault();
     let nCage = Number(input.currentAge);
@@ -118,7 +140,11 @@ const Calculator = () => {
     });
     setReport();
   }
-
+  function handlePositiveNumberChange(field, value) {
+    if (value === "" || Number(value) > 0) {
+      setInput((prev) => ({ ...prev, [field]: value }));
+    }
+  }
   return (
     <div className="container">
       <header className="header">
@@ -141,7 +167,7 @@ const Calculator = () => {
               <input
                 type="number"
                 onChange={(e) =>
-                  setInput({ ...input, currentAge: e.target.value })
+                  handlePositiveNumberChange("currentAge", e.target.value)
                 }
                 value={input.currentAge}
                 className="form-input"
@@ -158,11 +184,11 @@ const Calculator = () => {
               <input
                 type="number"
                 onChange={(e) =>
-                  setInput({ ...input, targetAge: e.target.value })
+                  handlePositiveNumberChange("targetAge", e.target.value)
                 }
                 value={input.targetAge}
                 className="form-input"
-                placeholder="e.g., 60"
+                placeholder="e.g., 55"
                 required
               />
               <div className="error-message"></div>
@@ -175,7 +201,7 @@ const Calculator = () => {
               <input
                 type="number"
                 onChange={(e) =>
-                  setInput({ ...input, deathAge: e.target.value })
+                  handlePositiveNumberChange("deathAge", e.target.value)
                 }
                 value={input.deathAge}
                 className="form-input"
@@ -192,12 +218,14 @@ const Calculator = () => {
               <input
                 type="number"
                 onChange={(e) =>
-                  setInput({ ...input, monthlyExpensive: e.target.value })
+                  handlePositiveNumberChange(
+                    "monthlyExpensive",e.target.value
+                  )
                 }
                 value={input.monthlyExpensive}
                 step="0.01"
                 className="form-input"
-                placeholder="e.g., 0.50"
+                placeholder="e.g., 1"
                 required
               />
               <div className="error-message"></div>
@@ -210,12 +238,12 @@ const Calculator = () => {
               <input
                 type="number"
                 onChange={(e) =>
-                  setInput({ ...input, inflation: e.target.value })
+                  handlePositiveNumberChange("inflation", e.target.value)
                 }
                 value={input.inflation}
                 step="0.01"
                 className="form-input"
-                placeholder="e.g., 6"
+                placeholder="e.g., 5"
                 required
               />
               <div className="error-message"></div>
@@ -227,7 +255,9 @@ const Calculator = () => {
               </label>
               <input
                 type="number"
-                onChange={(e) => setInput({ ...input, rPre: e.target.value })}
+                onChange={(e) =>
+                  handlePositiveNumberChange("rPre", e.target.value)
+                }
                 value={input.rPre}
                 step="0.01"
                 className="form-input"
@@ -243,7 +273,9 @@ const Calculator = () => {
               </label>
               <input
                 type="number"
-                onChange={(e) => setInput({ ...input, rPost: e.target.value })}
+                onChange={(e) =>
+                  handlePositiveNumberChange("rPost", e.target.value)
+                }
                 value={input.rPost}
                 step="0.01"
                 className="form-input"

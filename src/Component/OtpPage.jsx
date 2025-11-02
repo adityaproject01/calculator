@@ -1,6 +1,6 @@
-// OtpPage.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./OtpPage.css";
 
 export default function OtpPage() {
   const [email, setEmail] = useState("");
@@ -12,13 +12,10 @@ export default function OtpPage() {
   const navigate = useNavigate();
   const BACKEND_URL = "http://localhost:4000";
 
-  // Send OTP
   async function sendOtp(e) {
     e.preventDefault();
     setMessage("");
-    navigate("/calculator");
-
-    if (!email) return setMessage("Enter your email");
+    if (!email) return setMessage("Please enter your email ✉️");
     setLoading(true);
     try {
       const res = await fetch(`${BACKEND_URL}/api/send-otp`, {
@@ -34,14 +31,12 @@ export default function OtpPage() {
         setMessage(data?.error || "Failed to send OTP");
       }
     } catch (err) {
-      console.error("Network error:", err);
-      setMessage("⚠️ Network error. Please check connection.");
+      setMessage("⚠️ Network error. Please check your connection.");
     } finally {
       setLoading(false);
     }
   }
 
-  // Verify OTP
   async function verifyOtp(e) {
     e.preventDefault();
     setMessage("");
@@ -54,69 +49,81 @@ export default function OtpPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        const expiryTime = Date.now() + 5 * 60 * 1000; // 5 minutes from now
+        localStorage.setItem("otpVerified", "true");
+        localStorage.setItem("otpExpiry", expiryTime.toString());
         navigate("/calculator");
       } else {
         setMessage(data?.error || "❌ Invalid OTP");
       }
     } catch (err) {
-      console.error(err);
-      setMessage("⚠️ Network error. Please check connection.");
+      setMessage("⚠️ Network error. Please check your connection.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div>
-      <h1>Email OTP Verification 🔐</h1>
+    <div className="otp-container">
+      <div className="otp-card">
+        <h1>Email OTP Verification 🔐</h1>
 
-      {/* SEND OTP FORM */}
-      {stage === "send" && (
-        <form onSubmit={sendOtp}>
-          <label>
-            <span>Email address</span>
+        {stage === "send" && (
+          <form onSubmit={sendOtp} className="otp-form">
+            <label>
+              <span>Email Address</span>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="yourmail@example.com"
+              />
+            </label>
+            <button type="submit" disabled={loading}>
+              {loading ? "Sending..." : "Send OTP"}
+            </button>
+          </form>
+        )}
+
+        {stage === "verify" && (
+          <form onSubmit={verifyOtp} className="otp-form">
+            <div className="otp-info">
+              OTP sent to <strong>{email}</strong>
+            </div>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="yourmail@example.com"
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter OTP"
+              className="otp-input"
             />
-          </label>
-          <button type="submit" disabled={loading}>
-            {loading ? "Sending..." : "Send OTP"}
-          </button>
-        </form>
-      )}
+            <div className="otp-buttons">
+              <button type="submit" disabled={loading}>
+                {loading ? "Verifying..." : "Verify OTP"}
+              </button>
+              <button
+                type="button"
+                className="back-btn"
+                onClick={() => {
+                  setStage("send");
+                  setOtp("");
+                  setMessage("");
+                }}>
+                Back
+              </button>
+            </div>
+          </form>
+        )}
 
-      {/* VERIFY OTP FORM */}
-      {stage === "verify" && (
-        <form onSubmit={verifyOtp}>
-          <div>
-            OTP sent to <strong>{email}</strong>
-          </div>
-          <input
-            type="text"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder="Enter OTP"
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? "Verifying..." : "Verify OTP"}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setStage("send");
-              setOtp("");
-              setMessage("");
-            }}>
-            Back
-          </button>
-        </form>
-      )}
-
-      {/* STATUS MESSAGE */}
-      {message && <p>{message}</p>}
+        {message && (
+          <p
+            className={`message ${
+              message.includes("❌") || message.includes("⚠️")
+                ? "error"
+                : "success"
+            }`}></p>
+        )}
+      </div>
     </div>
   );
 }

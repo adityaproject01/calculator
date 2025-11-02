@@ -1,0 +1,129 @@
+/* General Layout */
+.otp-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3f6fa, #d8e8ff);
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card Styling */
+.otp-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.otp-card h1 {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+/* Form Styling */
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.otp-form label {
+  text-align: left;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.otp-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.otp-form input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+/* OTP Input */
+.otp-input {
+  letter-spacing: 2px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Buttons */
+.otp-form button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.otp-form button:hover:not(:disabled) {
+  background-color: #357abd;
+}
+
+.otp-form button:disabled {
+  background-color: #a0c2eb;
+  cursor: not-allowed;
+}
+
+.otp-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.back-btn {
+  background-color: #e4e6eb;
+  color: #333;
+}
+
+.back-btn:hover {
+  background-color: #d0d2d6;
+}
+
+/* Message Styling */
+.message {
+  margin-top: 18px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.message.success {
+  color: #2e8b57;
+}
+
+.message.error {
+  color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .otp-card {
+    padding: 30px 20px;
+  }
+
+  .otp-form input {
+    font-size: 0.9rem;
+  }
+
+  .otp-card h1 {
+    font-size: 1.3rem;
+  }
+}

@@ -1434,7 +1434,7 @@
     border-image: linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%) 1;
   }
   .input-section {
-    height: 100%;
+    height: auto;
     width: 40%;
     background: #ffffff;
     border-radius: 12px;
@@ -1707,7 +1707,7 @@
     border-image: linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%) 1;
   }
   .input-section {
-    height: 100%;
+    height: auto;
     width: 40%;
     background: #ffffff;
     border-radius: 12px;
