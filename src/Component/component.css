@@ -87,7 +87,7 @@
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 30px;
-    margin-bottom: 20px !important;
+    margin-bottom: 20px;
     justify-content: center;
     align-items: center;
   }
@@ -901,7 +901,7 @@
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    width: 100%;
+    width: 100% !important;
   }
   .cards-grid {
     width: 100%;
@@ -1174,7 +1174,7 @@
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    width: 50%;
+    width: 50% !important;
   }
   .cards-grid {
     width: 100%;
@@ -1447,7 +1447,7 @@
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    width: 50%;
+    width: 50% !important;
   }
   .cards-grid {
     width: 100%;
@@ -1720,7 +1720,7 @@
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    width: 50%;
+    width: 50% !important;
   }
   .cards-grid {
     width: 100%;

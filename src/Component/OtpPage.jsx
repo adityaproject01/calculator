@@ -10,7 +10,7 @@ export default function OtpPage() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const BACKEND_URL = "https://calculatorbackend-q6ep.onrender.com";
+  const BACKEND_URL = "http://localhost:4000";
 
   async function sendOtp(e) {
     e.preventDefault();
